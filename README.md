@@ -12,6 +12,7 @@ Vitrine de boutique en ligne de type Single Page Application (SPA). L'applicatio
 
 ## Structure du projet
 
+```bash
 devshop-fakestore-s10/
 ├── index.html
 ├── css/
@@ -19,6 +20,7 @@ devshop-fakestore-s10/
 ├── js/
 │ └── script.js
 └── README.md
+```
 
 ## Auteur
 
@@ -26,6 +28,5 @@ MASSAMBA BOUESSO Christophe Darly
 
 ## Lien live (GitHub Pages) + Repository
 
-- [DevShop](https://kazeholloway.github.io/devshop-fakestore-s10/)
-- [Repository](https://github.com/KazeHolloway/devshop-fakestore-s10)
-
+- [Lien live DevShop](https://kazeholloway.github.io/devshop-fakestore-s10/)
+- [Lien vers le repository](https://github.com/KazeHolloway/devshop-fakestore-s10)
