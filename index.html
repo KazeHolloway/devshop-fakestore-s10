@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevShop</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- nav bar : logo + compteur -->
+    <header class="navbar">
+        <h1 class="logo">DevShop</h1>
+        
+        <div class="cart-icon">
+            Panier (<span id="cart-count">0</span>)
+            <!-- le compteur sera incrémenté en JS -->
+        </div>
+    </header>
+
+    <!-- search bar + filters -->
+    <section class="controls">
+        <input type="text" id="search-input" placeholder="Rechercher un produit ...">
+        
+        <div class="category-filters" id="category-filters">
+            <!-- les buttons de catégorie seront injectés par le JS -->
+        </div>
+    </section>
+
+    <!-- zone pour la Gestion des états (UX) : Loader pendant le fetch / Error message si échec -->
+    <div id="status-message"></div>
+
+    <!-- grille de products -->
+    <main class="products-grid" id="products-grid">
+        <!-- les card seront injectés par le JS -->
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
