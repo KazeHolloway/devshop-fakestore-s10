@@ -1,5 +1,34 @@
-/* ===== Reset de base ===== */
-/* On enlève les marges/paddings par défaut du navigateur pour repartir sur une base propre */
+/* Ces variables changent de valeur selon [data-theme="dark"] sur le <html>, ce qui permet de basculer tout le site sans dupliquer le CSS */
+:root {
+    --bg-page: #f4f5f9;
+    --bg-surface: #ffffff;
+    --bg-navbar: #14162b;
+    --text-primary: #16182b;
+    --text-secondary: #6b7280;
+    --accent: #5b5bf0;
+    --accent-hover: #4747d6;
+    --success: #2e9e6b;
+    --danger: #e0483e;
+    --border: #e6e7ee;
+    --shadow: rgba(20, 22, 43, 0.08);
+    --radius: 12px;
+}
+
+[data-theme="dark"] {
+    --bg-page: #0a0b14;
+    --bg-surface: #1c1f33;
+    --bg-navbar: #060710;
+    --text-primary: #f1f2f8;
+    --text-secondary: #9498b0;
+    --accent: #7b7bf5;
+    --accent-hover: #9090ff;
+    --success: #3fbf8a;
+    --danger: #f0685f;
+    --border: #33364f;
+    --shadow: rgba(0, 0, 0, 0.35);
+}
+
+/* Reset de base */
 * {
     margin: 0;
     padding: 0;
@@ -7,112 +36,232 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #222;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ===== Navbar ===== */
-/* Flexbox pour aligner le logo et le panier sur une même ligne, aux extrémités */
+/* Nav bar */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #1a1a1a;
+    background-color: var(--bg-navbar);
     color: #fff;
     position: sticky;
     top: 0;
-    z-index: 100; /* garde la navbar reste au dessus des autres éléments au scroll */
+    z-index: 100;
 }
 
 .logo {
-    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.logo-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--accent);
+}
+
+.logo h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* bouton toggle theme : rond, avec les deux icones superposées */
+.theme-toggle {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.theme-icon {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* en theme clair : soleil visible, lune cachée */
+#icon-moon {
+    opacity: 0;
+    transform: rotate(-90deg);
+}
+
+/* quand [data-theme="dark"] est actif sur le html, on inverse l'affichage */
+[data-theme="dark"] #icon-sun {
+    opacity: 0;
+    transform: rotate(90deg);
+}
+
+[data-theme="dark"] #icon-moon {
+    opacity: 1;
+    transform: rotate(0deg);
 }
 
 .cart-icon {
-    font-size: 1rem;
+    position: relative;
     cursor: pointer;
+    color: #fff;
+    display: flex;
+    align-items: center;
 }
 
-#cart-count {
-    font-weight: bold;
+.cart-icon svg {
+    width: 26px;
+    height: 26px;
 }
 
-/* ===== Barre de recherche + filtres ===== */
-/* Flexbox aussi ici, pour empiler recherche et filtres proprement */
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+}
+
+/* Search bar + filters */
 .controls {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: 1.5rem 2rem;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 2rem;
 }
 
-#search-input {
-    padding: 0.6rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    width: 100%;
-    max-width: 400px;
+/* Cache le titre h2, mais le garde accessible aux validateurs HTML */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .search-wrapper {
     position: relative;
     width: 100%;
-    max-width: 400px;
+    max-width: 460px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+#search-input {
+    padding: 0.75rem 2.6rem;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    font-size: 0.95rem;
+    width: 100%;
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(91, 91, 240, 0.15);
 }
 
 .search-clear {
     position: absolute;
-    right: 10px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
     font-size: 1.2rem;
+    color: var(--text-secondary);
     cursor: pointer;
-}
-
-.no-results {
-    grid-column: 1 / -1; /* fait en sorte que le message prenne toute la largeur de la grille */
-    text-align: center;
-    padding: 2rem;
-    color: #777;
 }
 
 .category-filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 0.6rem;
 }
 
-/* Cette classe sera ajoutée sur chaque bouton de catégorie généré en JS */
 .category-filters button {
-    padding: 0.5rem 1rem;
-    border: 1px solid #333;
-    background-color: #fff;
-    border-radius: 20px;
+    padding: 0.55rem 1.2rem;
+    border: 1px solid var(--border);
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border-radius: 30px;
     cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: capitalize;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .category-filters button:hover {
-    background-color: #333;
-    color: #fff;
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 .category-filters button.active {
-    background-color: #1a1a1a;
+    background-color: var(--accent);
+    border-color: var(--accent);
     color: #fff;
 }
 
-/* ===== Zone de statut (loader / erreur) ===== */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+}
+
+/* Zone de statut (loader / erreur) */
 #status-message {
     text-align: center;
     padding: 2rem;
 }
 
-/* Flexbox pour centrer le spinner et le texte "Chargement..." l'un sous l'autre */
 .loader {
     display: flex;
     flex-direction: column;
@@ -120,46 +269,39 @@ body {
     gap: 1rem;
 }
 
-/* C'est ici que la magie du spinner opère */
 .spinner {
     width: 40px;
     height: 40px;
-    border: 5px solid #ddd;         /* le cercle de base, gris clair */
-    border-top: 5px solid #1a1a1a;  /* le morceau du haut, plus foncé, donne l'effet de rotation */
-    border-radius: 50%;             /* transforme le carré en cercle */
-    animation: spin 1s linear infinite; /* on applique l'animation definie plus bas */
+    border: 5px solid var(--border);
+    border-top: 5px solid var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
 }
 
-/* @keyframes definit les étapes de l'animation : ici, on tourne juste de 0 à 360 degrés */
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 .error-message {
-    color: #c0392b;
+    color: var(--danger);
     font-size: 1.1rem;
 }
 
-/* ===== Grille de produits ===== */
-/* Le coeur du responsive sans media queries : auto-fill + minmax */
+/* Grille de produits */
 .products-grid {
     display: grid;
-    /* chaque colonne fait au minimum 220px, et se répartit également l'espace restant */
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1.5rem;
-    padding: 1.5rem 2rem;
+    padding: 0 2rem 2rem;
 }
 
 .product-card {
-    background-color: #fff;
-    border-radius: 10px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     padding: 1rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px var(--shadow);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -167,78 +309,75 @@ body {
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* au survol de la carte */
 .product-card:hover {
-    transform: translateY(-6px); /* fait "flotter" légèrement la carte vers le haut */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* ombre plus large et diffuse */
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px var(--shadow);
 }
 
 .product-card img {
     max-width: 100%;
     height: 180px;
-    object-fit: contain; /* garde les proportions de l'image sans la déformer */
+    object-fit: contain;
     margin-bottom: 0.8rem;
 }
 
 .product-card h3 {
     font-size: 0.95rem;
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
     line-height: 1.3rem;
     min-height: 2.6rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    line-clamp: 2;
     overflow: hidden;
 }
 
 .product-card .price {
     font-weight: bold;
     font-size: 1.15rem;
-    color: #2e7d32;
+    color: var(--success);
     margin-bottom: 0.6rem;
     padding-top: 0.6rem;
     width: 100%;
-
-    /* le petit trait qui separe le titre du prix */
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid var(--border);
 }
 
 .product-card .category {
     font-size: 0.75rem;
-    color: #5c6bc0; 
+    color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 600;
-    background-color: #eef0fc;
+    background-color: rgba(91, 91, 240, 0.1);
     padding: 0.2rem 0.6rem;
     border-radius: 12px;
     margin-bottom: 0.8rem;
 }
 
 .add-to-cart {
-    padding: 0.5rem 1.2rem;
-    background-color: #1a1a1a;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--accent);
     color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     width: 100%;
+    font-weight: 600;
     transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .add-to-cart:hover {
-    background-color: #333;
-    transform: scale(1.02); /* leger zoom au survol, effet "cliquable" */
+    background-color: var(--accent-hover);
+    transform: scale(1.02);
 }
 
 .add-to-cart:active {
-    transform: scale(0.97); /* petit effet d'enfoncement au clic */
+    transform: scale(0.97);
 }
 
-/* ===== Bouton remonter en haut ===== */
+/* Bouton remonter en haut */
 .back-to-top {
     position: fixed;
     bottom: 2rem;
@@ -247,21 +386,24 @@ body {
     height: 48px;
     border-radius: 50%;
     border: none;
-    background-color: #1a1a1a;
+    background-color: var(--accent);
     color: #fff;
-    font-size: 1.3rem;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-
-    /* cache par defaut : invisible et non cliquable */
+    box-shadow: 0 4px 12px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
     pointer-events: none;
     transform: translateY(10px);
-
     transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
 }
 
-/* cette classe sera ajoutée/retirée en JS selon la position du scroll */
+.back-to-top svg {
+    width: 22px;
+    height: 22px;
+}
+
 .back-to-top.visible {
     opacity: 1;
     pointer-events: auto;
@@ -269,44 +411,256 @@ body {
 }
 
 .back-to-top:hover {
-    background-color: #333;
+    background-color: var(--accent-hover);
+}
+
+/* Tiroir panier (off-canvas) */
+.cart-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 200;
+}
+
+.cart-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    max-width: 90vw;
+    height: 100vh;
+    background-color: var(--bg-surface);
+    box-shadow: -4px 0 24px var(--shadow);
+    z-index: 201;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.cart-drawer.open {
+    transform: translateX(0);
+}
+
+.cart-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.cart-drawer-header h2 {
+    font-size: 1.2rem;
+}
+
+.cart-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.cart-drawer-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 1.2rem;
+}
+
+/* Nouvelle structure : image à gauche, corps à droite en colonne */
+.cart-item {
+    display: flex;
+    gap: 0.9rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.cart-item img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    background-color: var(--bg-page);
+    border-radius: 8px;
+    padding: 4px;
+    flex-shrink: 0;
+}
+
+.cart-item-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cart-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.6rem;
+}
+
+.cart-item-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.cart-item-remove {
+    background: none;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+}
+
+.cart-item-remove svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ligne du bas : prix + controles de quantité */
+.cart-item-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-item-price {
+    font-size: 0.9rem;
+    color: var(--success);
+    font-weight: bold;
+}
+
+.cart-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.qty-btn {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--border);
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.qty-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.qty-value {
+    font-size: 0.85rem;
+    min-width: 16px;
+    text-align: center;
+}
+
+.cart-empty {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 2rem;
+}
+
+.cart-drawer-footer {
+    padding: 1.2rem;
+    border-top: 1px solid var(--border);
+}
+
+.cart-total {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* Notifications toast */
+.toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    z-index: 300;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background-color: var(--bg-navbar);
+    color: #fff;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px var(--shadow);
+    font-size: 0.9rem;
+
+    /* caché par défaut, pousse vers la droite */
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* classe ajoutée en JS juste après la création, pour déclencher l'animation d'entrée */
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--success);
+    flex-shrink: 0;
 }
 
 /* Media Queries : ajustements sur petits écrans */
-
-/* Tablette et en dessous (largeur d'écran <= 768px) */
 @media (max-width: 768px) {
     .navbar {
         padding: 1rem;
     }
 
-    .logo {
-        font-size: 1.2rem;
-    }
-
     .controls {
-        padding: 1rem;
+        padding: 1.5rem 1rem;
     }
 
     .products-grid {
-        padding: 1rem;
+        padding: 0 1rem 1rem;
         gap: 1rem;
+    }
+
+    .cart-drawer {
+        width: 100%;
     }
 }
 
-/* Mobile (largeur d'écran <= 480px) */
 @media (max-width: 480px) {
-    .navbar {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: flex-start;
+    .logo h1 {
+        font-size: 1.1rem;
     }
 
     #search-input {
         max-width: 100%;
     }
 
-    /* sur tres petit ecran, on force une seule colonne pour la grille */
     .products-grid {
         grid-template-columns: 1fr;
     }
