@@ -21,6 +21,9 @@ body {
     padding: 1rem 2rem;
     background-color: #1a1a1a;
     color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 100; /* garde la navbar reste au dessus des autres éléments au scroll */
 }
 
 .logo {
@@ -54,6 +57,30 @@ body {
     max-width: 400px;
 }
 
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.no-results {
+    grid-column: 1 / -1; /* fait en sorte que le message prenne toute la largeur de la grille */
+    text-align: center;
+    padding: 2rem;
+    color: #777;
+}
+
 .category-filters {
     display: flex;
     flex-wrap: wrap;
@@ -71,6 +98,11 @@ body {
 
 .category-filters button:hover {
     background-color: #333;
+    color: #fff;
+}
+
+.category-filters button.active {
+    background-color: #1a1a1a;
     color: #fff;
 }
 
@@ -204,6 +236,40 @@ body {
 
 .add-to-cart:active {
     transform: scale(0.97); /* petit effet d'enfoncement au clic */
+}
+
+/* ===== Bouton remonter en haut ===== */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background-color: #1a1a1a;
+    color: #fff;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+    /* cache par defaut : invisible et non cliquable */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+
+    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
+}
+
+/* cette classe sera ajoutée/retirée en JS selon la position du scroll */
+.back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background-color: #333;
 }
 
 /* Media Queries : ajustements sur petits écrans */
