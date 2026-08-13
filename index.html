@@ -20,7 +20,11 @@
 
     <!-- search bar + filters -->
     <section class="controls">
-        <input type="text" id="search-input" placeholder="Rechercher un produit ...">
+        <div class="search-wrapper">
+            <input type="text" id="search-input" placeholder="Rechercher un produit ...">
+            <button id="search-clear" class="search-clear" type="button">&times;</button>
+            <!-- "&times;" est un caractère spécial HTML qui affiche une croix 'x' -->
+        </div>
         
         <div class="category-filters" id="category-filters">
             <!-- les buttons de catégorie seront injectés par le JS -->
@@ -34,6 +38,9 @@
     <main class="products-grid" id="products-grid">
         <!-- les card seront injectés par le JS -->
     </main>
+
+    <!-- Bouton pour remonter tout en haut de la page, caché par defaut -->
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Remonter en haut">↑</button>
 
     <script src="js/script.js"></script>
 </body>
